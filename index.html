@@ -490,7 +490,7 @@
                 looks like it
               </p>
               <div class="flex items-center justify-center gap-4  mx-auto">
-                <a href="https://docs.sofin.app" target="_blank" class="btn">
+                <a href="https://docs.sofin.app" target="_blank" class="btn" style="color:white !important;">
                   Get Started
                 </a>
                 <a href="https://docs.sofin.app" target="_blank" class="btn-outline">
@@ -505,23 +505,6 @@
       </section> 
 
                  
-      <!-- FOOTER SECTION  -->
-      <!-- <section class="bg-white dark:bg-dark-300 overflow-hidden relative pt-20">
-        <div class="container">
-          <div class="py-10">
-            <div class="flex flex-col items-center max-lg:text-center">
-              
-
-
-
-      
-                <p class="max-lg:mb-10" style="font-size: 0.9rem;"><span id="date"></span></p>
-      
-
-            </div>
-          </div>
-        </div>
-      </section> -->
       
       <!---Modal -->
       <div aria-hidden="false" class="fixed z-[99999999990] hidden inset-0 top-0 items-start justify-center  bg-metal-900 bg-dark-200/25"  role="dialog">
@@ -575,10 +558,66 @@
         </div>
       </div>
     
-      <!-- ACTIVE MENU LOGIC IS HERE -->
-
-     
-      
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const sections = document.querySelectorAll('section');
+          const navLinks = document.querySelectorAll('.nav-list a');
+          
+          function setActiveLink() {
+            let index = sections.length;
+          
+            while (--index && window.scrollY + 50 < sections[index].offsetTop) {}
+          
+            navLinks.forEach((link) => link.classList.remove('active'));
+            if (index >= 0) {
+              navLinks[index].classList.add('active');
+            }
+          }
+          
+          window.addEventListener('scroll', setActiveLink);
+          
+          navLinks.forEach((link) => {
+            link.addEventListener('mouseover', function () {
+              // Add hover class to the link
+              this.classList.add('active');
+            });
+            link.addEventListener('mouseout', function () {
+              // Remove hover class from the link
+              this.classList.remove('active');
+            });
+            link.addEventListener('click', function (e) {
+              const href = this.getAttribute('href');
+              
+              if (href === 'https://docs.sofin.app') {
+                // Open the URL in a new tab
+                window.open(href, '_blank');
+                e.preventDefault(); // Prevent default anchor behavior
+              } else {
+                e.preventDefault(); // Prevent default anchor behavior
+                
+                // Remove active class from all links
+                navLinks.forEach((link) => link.classList.remove('active'));
+                // Add active class to the clicked link
+                this.classList.add('active');
+                
+                // Smooth scroll to the target section
+                const targetSection = document.querySelector(href);
+                if (targetSection) {
+                  targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                // Set a timeout to update the active link after scrolling is complete
+                setTimeout(() => {
+                  setActiveLink();
+                }, 100); // Adjust the timeout duration if needed
+              }
+            });
+          });
+          
+          // Optionally, you can call this function on page load to set the initial active link
+          setActiveLink();
+        });
+      </script>
       <script src="vendor/fancybox/fancybox.js"></script>
       <script src="vendor/gsap/gsap.min.js"></script>
       <script src="vendor/gsap/motionpath.js"></script>
